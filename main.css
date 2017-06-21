@@ -1,3 +1,74 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 #root {
-	background-image: url('./img/bg.jpg')
+	background-image: url('./img/bg.jpg');
+	background-size: cover;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	height: 100vh;
+	width: 100vw;
+}
+
+
+.iphone6 {
+	transform: scale(0.7);
+}
+
+.screen {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.screen-bg {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: -1;
+	height: 100%;
+	width: 100%;
+	background-size: cover;
+	-webkit-filter: blur(5px);
+	-o-filter: blur(5px);
+	filter: blur(5px);
+
+	-webkit-transform: scale(1.5);
+	-ms-transform: scale(1.5);
+	transform: scale(1.5);
+}
+
+.card {
+	padding: 30px;
+	height: 86%;
+	width: 86%;
+	background-size: cover;
+	box-shadow: rgba(0, 0, 0, 0.498039) 0px 0px 100px 0px;
+	border-radius: 8px;
+	pointer-events: none;
+	transform-origin: 50% 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.card__text {
+	font-weight: 100;
+	color: white;
+	font-size: 18px;
+	opacity: 0.9;
+	line-height: 1.6;
 }
