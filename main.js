@@ -21,6 +21,13 @@ const screenBg = document.querySelector('.screen-bg')
 const card = document.querySelector('.card')
 const cardText = document.querySelector('.card__text')
 
+const animate = (keyframes, options) => (element) => {
+	return new Promise(r => {
+		const animation = element.animate(keyframes, options)
+		animation.addEventListener("finish", r, {once: true})
+	})
+}
+
 const animateBackground = (element, direction, callback) => {
 
 	const keyframes = {
@@ -35,12 +42,10 @@ const animateBackground = (element, direction, callback) => {
 		direction: direction === 'in' ? 'normal' : 'reverse',
 	}
 
-	const animation = element.animate(keyframes, options)
-
-	if(callback) animation.addEventListener("finish", callback, {once: true})
+	return animate(keyframes, options)(element)
 }
 
-const animateCard = (element, direction, callback) => {
+const animateCard = (element, direction) => {
 
 	const transformValues =
 		direction == 'left' ? [0, -110] : [110, 0]
@@ -56,22 +61,25 @@ const animateCard = (element, direction, callback) => {
 		easing: "cubic-bezier(.2, 1, .2, 1)",
 	}
 
-	const animation = element.animate(keyframes, options)
-	window.ra = animation
-	if(callback) animation.addEventListener("finish", callback, {once: true})
+	return animate(keyframes, options)(element)
 }
 
-const setActive = (fact) => {
-	animateCard(card, 'left', () => {
-		card.style.backgroundImage = `url(${fact.photo})`
-		cardText.textContent = fact.fact
-		animateCard(card, 'right')
-	})
 
-	animateBackground(screenBg, 'out', () => {
-		screenBg.style.backgroundImage = `url(${fact.photo})`
-		animateBackground(screenBg, 'in')
-	})
+const setActive = (fact) => {
+	// Both animation run at the same time
+
+	animateCard(card, 'left')
+		.then(() => {
+			card.style.backgroundImage = `url(${fact.photo})`
+			cardText.textContent = fact.fact
+		})
+		.then(() => animateCard(card, 'right'))
+
+	animateBackground(screenBg, 'out')
+		.then(() => {
+			screenBg.style.backgroundImage = `url(${fact.photo})`
+		})
+		.then(() => animateBackground(screenBg, 'in'))
 }
 
 
